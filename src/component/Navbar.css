@@ -9,7 +9,7 @@ font-family: 'Oleo Script', cursive; */
   color: black !important;
 }
 
-.brand_icon {
+.brand_icon img {
   -webkit-transform: scale(1.2);
   -moz-transform: scale(1.2);
   -ms-transform: scale(1.2);
@@ -18,7 +18,7 @@ font-family: 'Oleo Script', cursive; */
 
 .brand_name {
   font-family: "Oleo Script", cursive !important;
-  font-size: 25px !important;
+  font-size: 27px !important;
   margin-left: 10px !important;
 }
 
@@ -31,7 +31,7 @@ font-family: 'Oleo Script', cursive; */
   box-shadow: none !important;
 }
 
-.brand_icon,
+.brand_icon img,
 .bbc_source img {
   width: auto;
   height: 40px;
@@ -43,12 +43,12 @@ font-family: 'Oleo Script', cursive; */
 }
 
 @media screen and (max-width: 575px) {
-  .brand_icon,
+  .brand_icon img,
   .bbc_source img {
     height: 35px;
   }
 
-  .brand_icon {
+  .brand_icon img {
     -webkit-transform: scale(1.3);
     -moz-transform: scale(1.3);
     -ms-transform: scale(1.3);
@@ -58,7 +58,7 @@ font-family: 'Oleo Script', cursive; */
 
 @media screen and (max-width: 400px) {
   .bbc_source {
-    margin-right: 0px !important;
+    margin-right: -12px !important;
   }
 
   .brand_name {

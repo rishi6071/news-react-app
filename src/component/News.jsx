@@ -1,46 +1,72 @@
-import React from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import './News.css';
+import FallbackImage from '../img/fallbackImage.png';
+import { Category, Country } from './Filter';
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../../node_modules/bootstrap/dist/js/bootstrap.bundle';
 
 const News = () => {
+    const [category, country] = [useContext(Category), useContext(Country)];
+
+    // useState for News Data
+    const [newsData, setNewsData] = useState([]);
+
     const timeConversion = (date) => {
-        return new Date(date).toLocaleString();
+        const publishedAt = new Date(date);
+        return `${publishedAt.toDateString()} ${publishedAt.toLocaleTimeString()}`;
     }
+
+    // NEWS API Call
+    useEffect(() => {
+        var url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category.toLowerCase()}&apiKey=198fd94ef88b42bda6a5dac53eab1b27`;
+
+        var req = new Request(url);
+        fetch(req).then(function (response) {
+            return response.json();
+        }).then((res) => {
+            // console.log(res);
+            setNewsData(res.articles);
+        });
+    }, [category, country]);
 
     return (
         <>
             <div className="container my-5" id="news_box">
-                <div className="row news_card">
-                    <div className="col-md-4 news_img_col">
-                        {/* News Image */}
-                        <img src="https://mondrian.mashable.com/2021%252F03%252F24%252F4c%252F5e557a4d5d144e0898e8f087466d455a.46b57.jpg%252F1200x630.jpg?signature=O7ZjxA7YXNEMQMd0_p1tOsVA6iY=" alt="News" />
-                    </div>
-                    <div className="col-md-8 news_content_col">
-                        {/* News Title */}
-                        <h4 className="news_title">Tesla now accepts Bitcoin in the US Tesla now accepts Bitcoin in the US</h4>
+                {
+                    newsData.map((news_info) => {
+                        return (
+                            <>
+                                <div className="row news_card">
+                                    <div className="col-lg-4 col-md-5 news_img_col">
+                                        {/* News Image */}
+                                        <img src={(news_info.urlToImage === null)? FallbackImage : news_info.urlToImage} alt={news_info.title} />
+                                    </div>
+                                    <div className="col-lg-8 col-md-7 news_content_col">
+                                        {/* News Title */}
+                                        <h4 className="news_title">{news_info.title}</h4>
 
-                        {/* News Author & Date Published */}
-                        <div className="row news_author_published">
-                            <div className="col-lg-6 col-md-5">
-                                <p>Author- David Murphy</p>
-                            </div>
-                            <div className="col-lg-6 col-md-7">
-                                <p>Published- {timeConversion('2021-03-31T14:00:00Z')}</p>
-                            </div>
-                        </div>
+                                        {/* News Author & Date Published */}
+                                        <div className="row news_author_published">
+                                            <div className="col-lg-6 col-md-5">
+                                                <p>Author- {(news_info.author) === null ? 'Not Known' : news_info.author}</p>
+                                            </div>
+                                            <div className="col-lg-6 col-md-7">
+                                                <p>Published- {timeConversion(`${news_info.publishedAt}`)}</p>
+                                            </div>
+                                        </div>
 
-                        {/* News Description */}
-                        <p className="news_description">
-                            As it promised earlier this year, Tesla now accepts payment in Bitcoin,
-                            according to Tesla's website and a tweet from CEO Elon Musk.
-                        </p>
+                                        {/* News Description */}
+                                        <p className="news_description">{news_info.description}</p>
 
-                        {/* News READ MORE */}
-                        <a href="#" target="_blank" class="btn btn-secondary news_read_more">READ MORE</a>
-                    </div>
-                </div>
+                                        {/* News READ MORE */}
+                                        <a href={news_info.url} target="_blank" class="btn btn-secondary news_read_more">READ MORE</a>
+                                    </div>
+                                </div>
+                            </>
+                        );
+                    })
+                }
             </div>
         </>
     );

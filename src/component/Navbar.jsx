@@ -1,5 +1,6 @@
 import React from 'react';
 import './Navbar.css';
+import Filter from './Filter';
 import BrandLogo from '../img/brandLogo.png';
 import BBC from '../img/bbcLogo.png';
 
@@ -16,8 +17,8 @@ const Navbar = () => {
         <>
             <AppBar position="static" className="navigation_bar">
                 <Toolbar>
-                    <IconButton edge="start" color="inherit" aria-label="menu">
-                        <img src={BrandLogo} className="brand_icon" alt="World Today" />
+                    <IconButton edge="start" color="inherit" aria-label="menu" className="brand_icon">
+                        <img src={BrandLogo} alt="World Today" />
                     </IconButton>
                     <Typography variant="h6" className="brand_name">
                         World Today
@@ -27,6 +28,9 @@ const Navbar = () => {
                     </Button>
                 </Toolbar>
             </AppBar>
+
+            {/* FILTER Component */}
+            <Filter />
         </>
     );
 }
