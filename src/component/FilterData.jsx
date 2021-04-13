@@ -1,6 +1,60 @@
 const filterData = {
 
     categories: ['Business', 'Entertainment', 'General', 'Health', 'Science', 'Sports', 'Technology'],
+    languages: [
+        {
+            id: 'ar',
+            name: 'Arabic'
+        },
+        {
+            id: 'de',
+            name: 'German'
+        },
+        {
+            id: 'en',
+            name: 'English'
+        },
+        {
+            id: 'es',
+            name: 'Spanish'
+        },
+        {
+            id: 'fr',
+            name: 'French'
+        },
+        {
+            id: 'he',
+            name: 'Hebrew'
+        },
+        {
+            id: 'it',
+            name: 'Italian'
+        },
+        {
+            id: 'nl',
+            name: 'Dutch'
+        },
+        {
+            id: 'no',
+            name: 'Norwegian'
+        },
+        {
+            id: 'pt',
+            name: 'Portuguese'
+        },
+        {
+            id: 'ru',
+            name: 'Russian'
+        },
+        {
+            id: 'se',
+            name: 'Northern Sami'
+        },
+        {
+            id: 'zh',
+            name: 'Chinese'
+        }
+    ],
     countries: [
         {
             id: 'ar',

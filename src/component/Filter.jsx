@@ -7,9 +7,20 @@ import '../../node_modules/bootstrap/dist/js/bootstrap.bundle';
 
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
+import { makeStyles } from '@material-ui/core/styles';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+
+// Creating Styles
+const useStyles = makeStyles((theme) => ({
+    selectRoot: {
+        //...other styles
+        '&:focus': {
+            backgroundColor: 'transparent'
+        }
+    }
+}));
 
 const Filter = () => {
     const [category, setCategory] = useState('All');
@@ -19,7 +30,6 @@ const Filter = () => {
     // On Changing Any Filter
     const handleChange = (event) => {
         const [name, value] = [event.target.name, event.target.value];
-
         if (name === 'category_filter_helper')
             setCategory(value);
         else if (name === 'country_filter_helper')
@@ -28,11 +38,13 @@ const Filter = () => {
             setLanguage(value);
     }
 
+    const classes = useStyles();
+
     return (
         <>
-            <div className="container-fluid mt-4">
+            <div className="container-lg mt-md-3 mt-2">
                 <div className="row">
-                    {/* Language Select */}
+                    {/* Category Select */}
                     <div className="col-lg-4 col-md-6 col-12 filter_select_box">
                         <FormControl className="filter_select">
                             <InputLabel id="category_filter" className="filter_label">Category</InputLabel>
@@ -43,11 +55,12 @@ const Filter = () => {
                                 className="filter_field"
                                 value={category}
                                 onChange={handleChange}
+                                classes={{ root: classes.selectRoot }}
                             >
-                                <MenuItem value={'All'}>All</MenuItem>
+                                <MenuItem value={'All'}>All Categories</MenuItem>
                                 {
                                     FilterData.categories.map((category) => {
-                                        return <MenuItem value={category} className="filter_item">{category}</MenuItem>;
+                                        return <MenuItem value={category}>{category}</MenuItem>;
                                     })
                                 }
                             </Select>
@@ -55,7 +68,7 @@ const Filter = () => {
                         </FormControl>
                     </div>
 
-                    {/* Category Select */}
+                    {/* Country Select */}
                     <div className="col-lg-4 col-md-6 col-12 filter_select_box">
                         <FormControl className="filter_select">
                             <InputLabel id="country_filter" className="filter_label">Country</InputLabel>
@@ -66,8 +79,9 @@ const Filter = () => {
                                 className="filter_field"
                                 value={country}
                                 onChange={handleChange}
+                                classes={{ root: classes.selectRoot }}
                             >
-                                <MenuItem value={'All'}>All</MenuItem>
+                                <MenuItem value={'All'}>All Countries</MenuItem>
                                 {
                                     FilterData.countries.map((country) => {
                                         return <MenuItem value={country.id}>{country.name}</MenuItem>;
@@ -78,7 +92,7 @@ const Filter = () => {
                         </FormControl>
                     </div>
 
-                    {/* Country Select */}
+                    {/* Language Select */}
                     <div className="col-lg-4 col-md-6 col-12 filter_select_box">
                         <FormControl className="filter_select">
                             <InputLabel id="language_filter" className="filter_label">Language</InputLabel>
@@ -89,11 +103,14 @@ const Filter = () => {
                                 className="filter_field"
                                 value={language}
                                 onChange={handleChange}
+                                classes={{ root: classes.selectRoot }}
                             >
-                                <MenuItem value={'All'}>All</MenuItem>
-                                <MenuItem value={'Ten'}>Ten</MenuItem>
-                                <MenuItem value={'Twenty'}>Twenty</MenuItem>
-                                <MenuItem value={'Thirty'}>Thirty</MenuItem>
+                                <MenuItem value={'All'}>All Languages</MenuItem>
+                                {
+                                    FilterData.languages.map((language) => {
+                                        return <MenuItem value={language.id}>{language.name}</MenuItem>;
+                                    })
+                                }
                             </Select>
                             {/* <FormHelperText>Select Language</FormHelperText> */}
                         </FormControl>

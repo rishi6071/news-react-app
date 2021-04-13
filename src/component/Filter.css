@@ -1,20 +1,30 @@
 @charset "utf-8";
 
 .filter_select_box {
-    display: flex !important;
-    justify-content: center !important;
-    margin-top: 20px !important;
-}
-
-.filter_select_box .filter_select {
-    width: 65% !important;
+  display: flex !important;
+  justify-content: center !important;
+  margin-top: 20px !important;
 }
 
 .filter_select .filter_label {
-    color: black !important;
-    font-weight: 500 !important;
+  color: black !important;
+  font-weight: 500 !important;
 }
 
-/* .filter_item {
-    text-transform: capitalize !important;
-} */
+.filter_select_box .filter_select {
+  width: 80% !important;
+}
+
+.filter_field:focus {
+    background: transparent !important;
+}
+
+@media screen and (max-width: 990px) {
+  .filter_select_box {
+    margin-top: 30px !important;
+  }
+
+  .filter_select_box .filter_select {
+    width: 85% !important;
+  }
+}
