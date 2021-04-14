@@ -29,12 +29,14 @@ const News = () => {
             return response.json();
         }).then((res) => {
             setNewsData(res.articles);
-            setLoadConfirmation(true);
+            if (newsData.length === 0 || newsData === null || newsData === undefined)
+                setLoadConfirmation(false);
+            else
+                setLoadConfirmation(true);
         }).catch((error) => {
             setLoadConfirmation(false);
         });
     }, [category, country]);
-
 
     // Load Confirmation Loader
     if (!loadConfirmation) {
