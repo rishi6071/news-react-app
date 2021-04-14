@@ -1,17 +1,21 @@
 import React, { useState, useContext, useEffect } from 'react';
 import './News.css';
+import LoaderGIF from '../img/loader.gif';
 import FallbackImage from '../img/fallbackImage.png';
 import { Category, Country } from './Filter';
+import Loader from './Loader';
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../../node_modules/bootstrap/dist/js/bootstrap.bundle';
 
 const News = () => {
+    const [loadConfirmation, setLoadConfirmation] = useState(false);
     const [category, country] = [useContext(Category), useContext(Country)];
 
     // useState for News Data
     const [newsData, setNewsData] = useState([]);
 
+    // For Time Conversion
     const timeConversion = (date) => {
         const publishedAt = new Date(date);
         return `${publishedAt.toDateString()} ${publishedAt.toLocaleTimeString()}`;
@@ -25,10 +29,18 @@ const News = () => {
         fetch(req).then(function (response) {
             return response.json();
         }).then((res) => {
-            // console.log(res);
             setNewsData(res.articles);
+            setLoadConfirmation(true);
+        }).catch((error) => {
+            setLoadConfirmation(false);
         });
     }, [category, country]);
+
+
+    // Load Confirmation Loader
+    if (!loadConfirmation) {
+        return <Loader />
+    }
 
     return (
         <>
@@ -40,7 +52,7 @@ const News = () => {
                                 <div className="row news_card">
                                     <div className="col-lg-4 col-md-5 news_img_col">
                                         {/* News Image */}
-                                        <img src={(news_info.urlToImage === null)? FallbackImage : news_info.urlToImage} alt={news_info.title} />
+                                        <img src={(news_info.urlToImage === null) ? FallbackImage : news_info.urlToImage} alt={news_info.title} />
                                     </div>
                                     <div className="col-lg-8 col-md-7 news_content_col">
                                         {/* News Title */}

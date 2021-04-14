@@ -1,7 +1,7 @@
 import React from 'react';
 import './Navbar.css';
 import Filter from './Filter';
-import BrandLogo from '../img/brandLogo.png';
+import BrandLogo from '../img/brandLogo.svg';
 import BBC from '../img/bbcLogo.png';
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';

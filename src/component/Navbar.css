@@ -1,8 +1,11 @@
 @charset "utf-8";
 @import url("https://fonts.googleapis.com/css2?family=Lobster+Two:wght@400;700&family=Oleo+Script:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Acme&display=swap");
 
 /* font-family: 'Lobster Two', cursive;
-font-family: 'Oleo Script', cursive; */
+font-family: 'Oleo Script', cursive; 
+font-family: "Acme", sans-serif;
+*/
 
 .navigation_bar {
   background-color: transparent !important;
@@ -10,14 +13,15 @@ font-family: 'Oleo Script', cursive; */
 }
 
 .brand_icon img {
-  -webkit-transform: scale(1.2);
-  -moz-transform: scale(1.2);
-  -ms-transform: scale(1.2);
-  transform: scale(1.2);
+  -webkit-transform: scale(1.15);
+  -moz-transform: scale(1.15);
+  -ms-transform: scale(1.15);
+  transform: scale(1.15);
 }
 
 .brand_name {
-  font-family: "Oleo Script", cursive !important;
+  /* font-family: "Oleo Script", cursive !important; */
+  font-family: "Acme", sans-serif !important;
   font-size: 27px !important;
   margin-left: 10px !important;
 }
@@ -58,7 +62,7 @@ font-family: 'Oleo Script', cursive; */
 
 @media screen and (max-width: 400px) {
   .bbc_source {
-    margin-right: -12px !important;
+    margin-right: -15px !important;
   }
 
   .brand_name {
