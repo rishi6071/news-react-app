@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
 import './News.css';
-import LoaderGIF from '../img/loader.gif';
 import FallbackImage from '../img/fallbackImage.png';
 import { Category, Country } from './Filter';
 import Loader from './Loader';
@@ -72,7 +71,7 @@ const News = () => {
                                         <p className="news_description">{news_info.description}</p>
 
                                         {/* News READ MORE */}
-                                        <a href={news_info.url} target="_blank" class="btn btn-secondary news_read_more">READ MORE</a>
+                                        <a href={news_info.url} rel="noreferrer" target="_blank" class="btn btn-secondary news_read_more">READ MORE</a>
                                     </div>
                                 </div>
                             </>
