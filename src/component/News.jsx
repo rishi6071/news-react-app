@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import './News.css';
 import FallbackImage from '../img/fallbackImage.png';
 import { Category, Country } from './Filter';
+import { BbcChecked } from './Navbar';
 import Loader from './Loader';
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
@@ -9,6 +10,7 @@ import '../../node_modules/bootstrap/dist/js/bootstrap.bundle';
 
 const News = () => {
     const [loadConfirmation, setLoadConfirmation] = useState(false);
+    const bbcNews = useContext(BbcChecked);
     const [category, country] = [useContext(Category), useContext(Country)];
 
     // useState for News Data
@@ -20,23 +22,52 @@ const News = () => {
         return `${publishedAt.toDateString()} ${publishedAt.toLocaleTimeString()}`;
     }
 
+    // NEWS API Call For BBC News
+    useEffect(() => {
+        var urlBbc = `https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=198fd94ef88b42bda6a5dac53eab1b27`;
+        var reqBbc = new Request(urlBbc);
+
+        async function getBbcData() {
+
+            if(bbcNews) {
+                fetch(reqBbc).then(function (response) {
+                    return response.json();
+                }).then((res) => {
+                    setNewsData(res.articles);
+                    if (res.articles.length === 0 || res.articles === null || res.articles === undefined)
+                        setLoadConfirmation(false);
+                    else
+                        setLoadConfirmation(true);
+                }).catch((error) => {
+                    setLoadConfirmation(false);
+                });
+            }
+        }
+        getBbcData();
+    }, [bbcNews]);
+
     // NEWS API Call
     useEffect(() => {
         var url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category.toLowerCase()}&apiKey=198fd94ef88b42bda6a5dac53eab1b27`;
-
         var req = new Request(url);
-        fetch(req).then(function (response) {
-            return response.json();
-        }).then((res) => {
-            setNewsData(res.articles);
-            if (newsData.length === 0 || newsData === null || newsData === undefined)
-                setLoadConfirmation(false);
-            else
-                setLoadConfirmation(true);
-        }).catch((error) => {
-            setLoadConfirmation(false);
-        });
-    }, [category, country]);
+
+        async function getData() {
+            if (!bbcNews) {
+                fetch(req).then(function (response) {
+                    return response.json();
+                }).then((res) => {
+                    setNewsData(res.articles);
+                    if (res.articles.length === 0 || res.articles === null || res.articles === undefined)
+                        setLoadConfirmation(false);
+                    else
+                        setLoadConfirmation(true);
+                }).catch((error) => {
+                    setLoadConfirmation(false);
+                });
+            }
+        }
+        getData();
+    }, [category, country, bbcNews]);
 
     // Load Confirmation Loader
     if (!loadConfirmation) {
@@ -47,10 +78,10 @@ const News = () => {
         <>
             <div className="container my-5" id="news_box">
                 {
-                    newsData.map((news_info) => {
+                    newsData.map((news_info, newsKey) => {
                         return (
                             <>
-                                <div className="row news_card">
+                                <div className="row news_card" key={`news-${newsKey}`}>
                                     <div className="col-lg-4 col-md-5 news_img_col">
                                         {/* News Image */}
                                         <img src={(news_info.urlToImage === null) ? FallbackImage : news_info.urlToImage} alt={news_info.title} />

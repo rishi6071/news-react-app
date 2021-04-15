@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createContext, useState } from 'react';
 import './Navbar.css';
 import Filter from './Filter';
 import BrandLogo from '../img/brandLogo.svg';
@@ -9,30 +9,50 @@ import '../../node_modules/bootstrap/dist/js/bootstrap.bundle';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import Switch from '@material-ui/core/Switch';
 import IconButton from '@material-ui/core/IconButton';
 
+// Context Creation of BBC-News Swtich
+const BbcChecked = createContext();
+
 const Navbar = () => {
+    const [bbcChecked, setBbcChecked] = useState(false);
+
+    // Handle Switch Button
+    const handleBBC = (event) => {
+        setBbcChecked(event.target.checked);
+    }
+
     return (
         <>
-            <AppBar position="static" className="navigation_bar">
-                <Toolbar>
-                    <IconButton edge="start" color="inherit" aria-label="menu" className="brand_icon">
-                        <img src={BrandLogo} alt="World Today" />
-                    </IconButton>
-                    <Typography variant="h6" className="brand_name">
-                        World Today
+            <BbcChecked.Provider value={bbcChecked}>
+                <AppBar position="static" className="navigation_bar">
+                    <Toolbar>
+                        <IconButton edge="start" color="inherit" aria-label="menu" className="brand_icon">
+                            <img src={BrandLogo} alt="World Today" />
+                        </IconButton>
+                        <Typography variant="h6" className="brand_name">
+                            World Today
                     </Typography>
-                    <Button variant="contained" className="bbc_source">
-                        <img src={BBC} alt="BBC News" />
-                    </Button>
-                </Toolbar>
-            </AppBar>
+                        <div className="bbc_source">
+                            <Switch
+                                checked={bbcChecked}
+                                onChange={handleBBC}
+                                color="primary"
+                                name="bbcChecked"
+                                inputProps={{ 'aria-label': 'primary checkbox' }}
+                            />
+                            <img src={BBC} alt="BBC News" />
+                        </div>
+                    </Toolbar>
+                </AppBar>
 
-            {/* FILTER Component */}
-            <Filter />
+                {/* FILTER Component */}
+                <Filter />
+            </BbcChecked.Provider>
         </>
     );
 }
 
 export default Navbar;
+export { BbcChecked };

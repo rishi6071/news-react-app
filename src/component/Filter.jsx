@@ -1,7 +1,8 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import './Filter.css';
 import News from './News';
 import FilterData from './FilterData';
+import { BbcChecked } from './Navbar';
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../../node_modules/bootstrap/dist/js/bootstrap.bundle';
@@ -26,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Filter = () => {
+    const bbcNews = useContext(BbcChecked);
     const [category, setCategory] = useState('General');
     const [country, setCountry] = useState('in');
 
@@ -44,7 +46,7 @@ const Filter = () => {
         <>
             <Category.Provider value={category}>
                 <Country.Provider value={country}>
-                    <div className="container-lg mt-md-3 mt-2">
+                    <div className="container-lg mt-md-3 mt-2" style={{ display: (!bbcNews)? 'block': 'none'} }>
                         <div className="row">
                             {/* Category Select */}
                             <div className="col-xl-4 col-lg-5 col-md-6 col-12 offset-xl-2 offset-lg-1 filter_select_box">
@@ -60,8 +62,8 @@ const Filter = () => {
                                         classes={{ root: classes.selectRoot }}
                                     >
                                         {
-                                            FilterData.categories.map((category) => {
-                                                return <MenuItem value={category}>{category}</MenuItem>;
+                                            FilterData.categories.map((category, cg_id) => {
+                                                return <MenuItem value={category} key={`category-${cg_id}}`}>{category}</MenuItem>;
                                             })
                                         }
                                     </Select>
@@ -82,8 +84,8 @@ const Filter = () => {
                                         classes={{ root: classes.selectRoot }}
                                     >
                                         {
-                                            FilterData.countries.map((country) => {
-                                                return <MenuItem value={country.id}>{country.name}</MenuItem>;
+                                            FilterData.countries.map((country, ct_id) => {
+                                                return <MenuItem value={country.id} key={`country-${ct_id}`}>{country.name}</MenuItem>;
                                             })
                                         }
                                     </Select>
