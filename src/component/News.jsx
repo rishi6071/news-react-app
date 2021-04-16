@@ -31,6 +31,11 @@ const News = () => {
     // Handle CurrentPage in Pagination
     const handleCurrentPage = (event, newPage) => {
         setCurrentPage(newPage);
+        window.scroll({
+            top: 0,
+            left: 0,
+            behavior: 'smooth'
+        });
     }
 
     // Handle PageSize in Pagination
