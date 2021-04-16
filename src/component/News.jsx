@@ -49,7 +49,6 @@ const News = () => {
                 fetch(reqBbc).then(function (response) {
                     return response.json();
                 }).then((res) => {
-                    console.log(res);
                     setNewsData(res.articles);
                     if (res.articles.length === 0 || res.articles === null || res.articles === undefined)
                         setLoadConfirmation(false);
