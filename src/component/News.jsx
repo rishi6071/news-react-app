@@ -5,13 +5,19 @@ import { Category, Country } from './Filter';
 import { BbcChecked } from './Navbar';
 import Loader from './Loader';
 
+import TablePagination from '@material-ui/core/TablePagination';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../../node_modules/bootstrap/dist/js/bootstrap.bundle';
 
 const News = () => {
     const [loadConfirmation, setLoadConfirmation] = useState(false);
     const bbcNews = useContext(BbcChecked);
-    const [category, country] = [useContext(Category), useContext(Country)];
+    const [category, country] = [useContext(Category).toLowerCase(), useContext(Country)];
+
+    // useStates for Pagination [pageSize, currentPage]
+    const [pageSize, setPageSize] = useState(10);
+    const [currentPage, setCurrentPage] = useState(0);
+    const [totalResults, setTotalResults] = useState(0);
 
     // useState for News Data
     const [newsData, setNewsData] = useState([]);
@@ -22,17 +28,28 @@ const News = () => {
         return `${publishedAt.toDateString()} ${publishedAt.toLocaleTimeString()}`;
     }
 
+    // Handle CurrentPage in Pagination
+    const handleCurrentPage = (event, newPage) => {
+        setCurrentPage(newPage);
+    }
+
+    // Handle PageSize in Pagination
+    const handlePageSize = (event) => {
+        setPageSize(parseInt(event.target.value, 10));
+        setCurrentPage(0);
+    }
+
     // NEWS API Call For BBC News
     useEffect(() => {
         var urlBbc = `https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=198fd94ef88b42bda6a5dac53eab1b27`;
         var reqBbc = new Request(urlBbc);
 
         async function getBbcData() {
-
-            if(bbcNews) {
+            if (bbcNews) {
                 fetch(reqBbc).then(function (response) {
                     return response.json();
                 }).then((res) => {
+                    console.log(res);
                     setNewsData(res.articles);
                     if (res.articles.length === 0 || res.articles === null || res.articles === undefined)
                         setLoadConfirmation(false);
@@ -42,13 +59,17 @@ const News = () => {
                     setLoadConfirmation(false);
                 });
             }
+
+            // Set Pagination Conditions to DEFAULT
+            setCurrentPage(0);
+            setPageSize(10);
         }
         getBbcData();
     }, [bbcNews]);
 
     // NEWS API Call
     useEffect(() => {
-        var url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category.toLowerCase()}&apiKey=198fd94ef88b42bda6a5dac53eab1b27`;
+        var url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&page=${currentPage + 1}&pageSize=${pageSize}&apiKey=198fd94ef88b42bda6a5dac53eab1b27`;
         var req = new Request(url);
 
         async function getData() {
@@ -56,6 +77,7 @@ const News = () => {
                 fetch(req).then(function (response) {
                     return response.json();
                 }).then((res) => {
+                    setTotalResults(res.totalResults);
                     setNewsData(res.articles);
                     if (res.articles.length === 0 || res.articles === null || res.articles === undefined)
                         setLoadConfirmation(false);
@@ -67,7 +89,7 @@ const News = () => {
             }
         }
         getData();
-    }, [category, country, bbcNews]);
+    }, [category, country, bbcNews, currentPage, pageSize]);
 
     // Load Confirmation Loader
     if (!loadConfirmation) {
@@ -111,6 +133,20 @@ const News = () => {
                         );
                     })
                 }
+            </div>
+
+            {/* Pagination */}
+            <div className="container mb-5" style={{ display: (!bbcNews) ? 'block' : 'none' }}>
+                <div className="d-flex justify-content-center">
+                    <TablePagination
+                        component="div"
+                        count={totalResults}
+                        page={currentPage}
+                        onChangePage={handleCurrentPage}
+                        rowsPerPage={pageSize}
+                        onChangeRowsPerPage={handlePageSize}
+                    />
+                </div>
             </div>
         </>
     );
