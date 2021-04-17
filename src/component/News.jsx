@@ -209,7 +209,7 @@ const News = () => {
                                 <p className="news_short"><span>Description-</span> {modalContent.description}</p>
 
                                 {/* News Source Link */}
-                                <a href={modalContent.url} className="source_link" target="_blank">Go To Source</a>
+                                <a href={modalContent.url} rel="noreferrer" className="source_link" target="_blank">Go To Source</a>
                             </div>
                         </div>
                     </div>
