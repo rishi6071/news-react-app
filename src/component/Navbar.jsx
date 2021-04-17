@@ -33,7 +33,7 @@ const Navbar = () => {
                         </IconButton>
                         <Typography variant="h6" className="brand_name">
                             World Today
-                    </Typography>
+                        </Typography>
                         <div className="bbc_source">
                             <Switch
                                 checked={bbcChecked}
