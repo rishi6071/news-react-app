@@ -23,6 +23,7 @@ const News = () => {
     // Modal Content
     const [showModal, setShowModal] = useState(false);
     const [modalContent, setModalContent] = useState({});
+    const [newsSource, setNewsSource] = useState(null);
 
     // useStates for Pagination [pageSize, currentPage]
     const [pageSize, setPageSize] = useState(10);
@@ -58,6 +59,7 @@ const News = () => {
     const openNewsModal = (event) => {
         const news_id = event.target.id.substring(5);
         setModalContent(newsData[news_id]);
+        setNewsSource(event.target.name);
         setShowModal(true);
     }
 
@@ -133,10 +135,10 @@ const News = () => {
                                         {/* News Title */}
                                         <h4 className="news_title">{news_info.title}</h4>
 
-                                        {/* News Author & Date Published */}
+                                        {/* News Source & Date Published */}
                                         <div className="row news_author_published">
                                             <div className="col-lg-6 col-md-5">
-                                                <p>Author- {(news_info.author) === null ? 'Not Known' : news_info.author}</p>
+                                                <p>Source- {(news_info.source.name) === null ? 'Not Known' : news_info.source.name}</p>
                                             </div>
                                             <div className="col-lg-6 col-md-7">
                                                 <p>Published- {timeConversion(`${news_info.publishedAt}`)}</p>
@@ -147,8 +149,7 @@ const News = () => {
                                         <p className="news_description">{news_info.description}</p>
 
                                         {/* News READ MORE */}
-                                        {/* <a href={news_info.url} rel="noreferrer" target="_blank" className="btn btn-secondary news_read_more">READ MORE</a> */}
-                                        <button type="button" id={`news_${newsKey}`} onClick={openNewsModal} className="btn btn-secondary news_read_more">READ MORE</button>
+                                        <button type="button" id={`news_${newsKey}`} name={(news_info.source.name) === null ? 'Not Known' : news_info.source.name} onClick={openNewsModal} className="btn btn-secondary news_read_more">READ MORE</button>
                                     </div>
                                 </div>
                             </>
@@ -179,6 +180,7 @@ const News = () => {
                 dialogClassName="modal-100w"
                 id="newsCardModal"
                 aria-labelledby="newsModal"
+                centered
             >
                 <Modal.Header className="pb-0 modal_header_box" closeButton>
                     <Modal.Title id="newsModal" className="ps-3">
@@ -200,7 +202,7 @@ const News = () => {
 
                                 {/* News Author & Date Published */}
                                 <div className="news_details">
-                                    <p><span>Source-</span> {(modalContent.source.name) === null ? 'Not Known' : modalContent.source.name}</p>
+                                    <p><span>Source-</span> {(newsSource) === null ? 'Not Known' : modalContent.source.name}</p>
                                     <p><span>Author-</span> {(modalContent.author) === null ? 'Not Known' : modalContent.author}</p>
                                     <p><span>Published-</span> {timeConversion(`${modalContent.publishedAt}`)}</p>
                                 </div>
