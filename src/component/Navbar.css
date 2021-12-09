@@ -12,6 +12,16 @@ font-family: "Acme", sans-serif;
   color: black !important;
 }
 
+.navigation_content_box {
+  max-width: 1200px;
+  margin: auto;
+}
+
+.brand_box {
+  display: flex;
+  align-items: center;
+}
+
 .brand_icon img {
   -webkit-transform: scale(1.15);
   -moz-transform: scale(1.15);
@@ -23,16 +33,18 @@ font-family: "Acme", sans-serif;
   /* font-family: "Oleo Script", cursive !important; */
   font-family: "Acme", sans-serif !important;
   font-size: 27px !important;
-  margin-left: 10px !important;
+  margin-left: 8px !important;
 }
 
 .bbc_source {
-  margin-left: auto !important;
-  margin-right: 10px !important;
   background: transparent !important;
   -webkit-box-shadow: none !important;
   -moz-box-shadow: none !important;
   box-shadow: none !important;
+}
+
+.bbc_source img {
+  margin-left: -6px;
 }
 
 .brand_icon img,
@@ -67,5 +79,15 @@ font-family: "Acme", sans-serif;
 
   .brand_name {
     margin-left: 4px !important;
+  }
+}
+
+@media screen and (min-width: 500px) {
+  .brand_box {
+    margin-right: 25px;
+  }
+
+  .bbc_source {
+    margin-left: 25px;
   }
 }
